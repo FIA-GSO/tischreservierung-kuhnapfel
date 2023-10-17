@@ -1,8 +1,13 @@
+import sqlite3
+
 import flask
 from flask import request   # wird benötigt, um die HTTP-Parameter abzufragen
 from flask import jsonify   # übersetzt python-dicts in json
 import os
 from . import db
+from datetime import datetime
+
+from . import api
 
 
 def create_app() -> flask.Flask:
@@ -24,12 +29,30 @@ def home():
 
 @app.route('/api/openTables', methods=['GET'])
 def freeTables():
-    database = db.get_db()
-    cur = database.cursor()
-    cur.execute('SELECT * FROM tische')
-    tables = cur.fetchall()
+    start_val = request.args.get('from', None)
+    end_val = request.args.get('to', None)
 
-    return [t for t in tables]
+    if any([val is None for val in [start_val, end_val]]):
+        return {
+            'success': False,
+            'error': 'No from or to data provided'
+        }, 400
+
+    try:
+        start = datetime.fromisoformat(start_val)
+        end = datetime.fromisoformat(end_val)
+    except:
+        return {
+            'status': False,
+            'error': 'Unable to parse from or end data'
+        }, 422
+
+    open_tables = api.get_open_tables(start, end)
+
+    return {
+        'success': True,
+        'data': open_tables
+    }
 
 
 if __name__ == '__main__':
