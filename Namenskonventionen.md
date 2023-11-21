@@ -2,15 +2,14 @@
 
 ## Versionierung
 
-Die Version einer REST-API sollte spätestens dann erhöht werden, wenn sich bei einem bestehenden Endpunkt ein Breaking Change ergibt.
+Die Version einer REST-API sollte dem Semantic Versioning folgen.  
+Das heißt es gibt eine dreistellige Versionsnummer, die durch Punkte getrennt wird.
 
-Die Version sollte ganz vorne in der URL mit einem vorangestellten `v` deklariert werden.
+Dabei wird in Major-, Minor- und Patch-Version unterschieden.
 
-**Beispiel**
-
-```
-https://example.com/api/v1/posts
-```
+- Die **Major-Version** wird erhöht, wenn sich Breaking Changes ergeben.
+- Die **Minor-Version** wird erhöht, wenn ein neues Feature hinzugefügt wurde, welches keine Breaking Changes verursacht.
+- Die **Patch-Version** wird erhöht, wenn Bugfixes umgesetzt wurden.
 
 ## Namenskonventionen
 
@@ -22,7 +21,7 @@ Sollte ein einzelnes Objekt aufgerufen werden, so wird die ID an die Objektnamen
 **Beispiel**
 
 ```
-https://example.com/api/v1/posts/<ID>
+https://example.com/api/posts/<ID>
 ```
 
 ## Einsatz der HTTP-Methoden
